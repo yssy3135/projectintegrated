@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.co.assemble.dto.MemberInfoDTO" alias="dto"/>
+		<typeAlias type="kr.co.assemble.dto.IdCheckDTO" alias="dto1"/>
+		<typeAlias type="kr.co.assemble.dto.AssembleInfoDTO" alias="dto2" />
+		<typeAlias type="kr.co.assemble.dto.testDTO" alias="dto3"/>
+		
+		<typeAlias alias="CategoryDto" type="kr.co.assemble.dto.CategoryDTO"/>
+		<typeAlias alias="GroupDto" type="kr.co.assemble.dto.GroupDTO"/>
+		<typeAlias alias="BoardDto" type="kr.co.assemble.dto.BoardDTO"/>
+		<typeAlias alias="ComposedDto" type="kr.co.assemble.dto.ComposedDTO"/>
+		
+		<typeAlias type="kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO" alias="G_M_F_Dto"/>
+		<typeAlias type="kr.co.assemble.dto.Groups_Memberinfo_Composed_DTO" alias="G_Mi_C_Dto"/>
+		<typeAlias type="kr.co.assemble.dto.RecommentDTO" alias="RecommentDto"/>
+		
+		  	<typeAlias  type="kr.co.chat.dto.CHATDTO" alias="chatdto"/>
+	<typeAlias type="kr.co.chat.dto.MemberDTO" alias="memberDTO"/>
+	<typeAlias type="kr.co.chat.dto.GroupChatDTO" alias="groupChatDTO"/>
+		
+		
+	</typeAliases>
+	
+	
+	
+</configuration>
+
+
+
+
+
+
