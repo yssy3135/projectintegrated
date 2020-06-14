@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,7 +87,7 @@ public class RecommentController {
    
    //그룹에서 bno별 댓글 조회  
  // @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment")
-  @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment",method = RequestMethod.POST)
+  @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment", method = RequestMethod.POST)
   @ResponseBody 
   public List<RecommentDTO> SelectRecomment(
         @PathVariable("mi_assembleName")String assemblename,

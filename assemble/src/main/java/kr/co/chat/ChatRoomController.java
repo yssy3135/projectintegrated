@@ -84,20 +84,30 @@ public class ChatRoomController {
 	// @ResponseBody
 	public String createRoom(Model model,HttpServletRequest req) {
 
+		HttpSession session = req.getSession();
+		
+		session.getAttribute("mi_memID");
+		
+		session.getAttribute("memberno");
+		session.getAttribute("mi_assembleName");
 		// withh가 어셈블 이름
-		List<MemberDTO> memlist = dao.getid("withh");
+		List<MemberDTO> memlist = dao.getid((String) session.getAttribute("mi_assembleName"));
+		
+		
 		
 		model.addAttribute("memlist", memlist);
-		 HttpSession session = req.getSession();
+		
 		 System.out.println(session.getAttribute("id"));
 		/* int memberno = (int) session.getAttribute("bno"); */
-		 int memberno = 1;
 		 
 		 
-		 List<GroupChatDTO> grouplist=dao.selectgroupchat(memberno);
+		// int memberno = 1; // 세션 멤버넘버
+		 List<GroupChatDTO> grouplist=dao.selectgroupchat((int) session.getAttribute("memberno"));
+		 
+		 
 		 model.addAttribute("grouplist", grouplist);
 		 
-		session.setAttribute("id", "yssy3135");
+		//session.setAttribute("id", "yssy3135");
 		
 		
 		
@@ -112,31 +122,31 @@ public class ChatRoomController {
 //	}
 
 	// 채팅방 입장
-	@GetMapping("/enter/{roomId}")
-	public String roomDetail( @PathVariable String roomId, Model model,HttpServletRequest req) {
-		// model.addAttribute("roomId", roomId);
-
-	
-		 List<CHATDTO> list = dao.getchat("1415");
-		 model.addAttribute("list",list);
-		 
-		//req.setAttribute("list", list); 
-		 
-		 
-		 
-		 System.out.println(list.get(0).getChatcontent());
-		 
-
-		// Model객체는 이용하여 view로 데이터전송
-		// 데이터 전송
-		 HttpSession session = req.getSession();
-		session.setAttribute("id", "yssy3135");
-
-		// return "/chat/roomdetail";
-		return "stomp";
-
-	}
-	
+//	@GetMapping("/enter/{roomId}")
+//	public String roomDetail( @PathVariable String roomId, Model model,HttpServletRequest req) {
+//		// model.addAttribute("roomId", roomId);
+//
+//	
+//		 List<CHATDTO> list = dao.getchat("1415");
+//		 model.addAttribute("list",list);
+//		 
+//		//req.setAttribute("list", list); 
+//		 
+//		 
+//		 
+//		 System.out.println(list.get(0).getChatcontent());
+//		 
+//
+//		// Model객체는 이용하여 view로 데이터전송
+//		// 데이터 전송
+//		 HttpSession session = req.getSession();
+//		session.setAttribute("id", "yssy3135");
+//
+//		// return "/chat/roomdetail";
+//		return "stomp";
+//
+//	}
+//	
 	@ResponseBody
 	@RequestMapping( value = "/room/getchat" , method = RequestMethod.POST)
 	public List<CHATDTO>getchat(HttpServletRequest req, @RequestParam String roomid ){

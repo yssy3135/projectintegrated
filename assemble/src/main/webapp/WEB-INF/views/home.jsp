@@ -147,7 +147,7 @@
 		<c:forEach var="tl" items="${mainlist }">
 			<div id="board">
 				<div id="a">
-					<a href="/assemble.io/${mi_assemblename }/g/${tl.groupno }/wall"><h4>${tl.groupname }</h4></a>
+					<a href="/assemble.io/${mi_assembleName}/g/${tl.groupno }/wall"><h4>${tl.groupname }</h4></a>
 				</div>
 
 				<div id="b">
@@ -168,13 +168,12 @@
 
 					<div id="d1">
 						<input type="button" value="댓글" id="re" /> 
-							<input type="button" value="댓글" id="re" />
 							
-								<img src="/resources/assets/img/like.png" class="lh">
+						<img src="/resources/assets/img/like.png" class="lh">
 								
-								<img src="/resources/assets/img/hate.png" class="lh">
+						<img src="/resources/assets/img/hate.png" class="lh">
 					
-								<img src="/resources/assets/img/bookmark_before.png" id="bk" class="lh" onclick="imgchange()"/>
+						<img src="/resources/assets/img/bookmark_before.png" id="bk" class="lh" onclick="imgchange()"/>
 					</div>
 					<div id="d2">
 						<ul class="option">

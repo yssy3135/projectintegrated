@@ -73,10 +73,11 @@
 	
 	
 	<!-- 카테고리조회(네비바) -->
-	<select id="categoryGroup" resultType="CategoryDto" >
-		select * from category 
-		where assemblename = #{assemblename} 
-		
+	<select id="categoryGroup" resultType="NavbarDto" >
+		select distinct ca.categoryno, ca.categoryname, ca.assemblename
+		from category ca inner join composed co
+		on co.memberno = ca.memberno
+		where co.memberno = #{memberno};
 	</select>
 	
 		
@@ -183,6 +184,7 @@
 		b.categoryno = c.categoryno and
 		m.mi_memberno = b.memberno and
 		b.groupno = #{groupno}
+		order by b.boardnotice desc, b.boarddate desc;
 	</select>
 	
 	<!-- bno로 전체 조회 -->
@@ -239,19 +241,52 @@
       insert into recomment (bno, groupno, categoryno, redate, reid, recontents)
       values (#{bno}, #{groupno}, #{categoryno}, now(), #{reid}, #{recontents})
    </insert>
+	
+	<select id="selectRecommentList" resultType="RecommentDto">
+	select * from recomment where bno = #{bno}
+	</select>
+	
+
+<!-- *******************요청******************** -->
+   <!-- 요청 탭에서 쓰기위해서 요청여부 insert -->
+   <insert id="insertRequest">
+      insert into groupboard (groupno, categoryno, memberno, boarddate, boardcontents, boardnotice, boardlike, boardhate, requestboolean, filestatus)
+      values (#{groupno}, #{categoryno}, #{memberno}, now(), #{boardcontents}, 0, 0, 0, 1, #{filestatus})
+   </insert>
+   
+   <!-- 요청 제일 앞번호 가져오기 -->
+   <select id="requestNewly" resultType="int">
+      select bno from requestboard order by reqdate desc limit 1
+   </select>
+   
+   <update id="requestUpdate" parameterType="ReqDto">
+      update requestboard
+      set responseid = #{responseid}
+      where bno = #{bno}
+   </update>
+   
+   <update id="updateStatus" parameterType="int">
+      update requestboard
+      set reqstatus = #{reqstatus}
+      where bno = #{bno}
+   </update>
+   
+   <!-- 내가 받은 요청 리스트 (내 이름, 내 아이디로 요청이들어온것) -->
+   <select id="myReq" parameterType="MRG_Dto" resultType="MRG_Dto">
+      select r.bno, r.memberno, r.reqstatus, r.responseid, 
+      g.boardcontents, g.boarddate, g.boardlike, g.boardhate, f.filename
+      from memberinfo as m, requestboard as r, groupboard as g
+      left outer join file f
+      on f.bno = g.bno
+      where r.bno = g.bno
+      and (m.mi_memname = r.responseid or m.mi_memid = r.responseid)
+      and m.mi_memberno = #{memberno}
+   </select>
    
    
+   <!-- *******************채팅******************** -->
    
-   
-   
-   
-   
-<!-- *************************채팅************************************ -->
-   
-   
-   
-   
-    	<select id="getchat" resultType="chatdto">
+       	<select id="getchat" resultType="chatdto">
   		select * from chat where roomname = #{roomId}
   	</select>
   	
@@ -281,23 +316,28 @@
 		where memberno = #{memberno};
   	</select>
   	
-  	
+   <!-- *******************검색******************** -->
    
    
+   	<select id="search" resultType="searchDTO">
+   		select
+		b.bno, b.groupno, b.memberno, m.mi_memname, m.mi_memid, 
+		b.boardnotice, b.boarddate, b.boardcontents, b.boardlike, b.boardhate, 
+		b.requestboolean, f.filename, r.reqstatus
+		from memberinfo as m inner join groupboard as b
+		on b.memberno = m.mi_memberno
+		left outer join file f
+		on f.bno = b.bno
+		left outer join requestboard r
+		on r.bno = b.bno
+		left outer join assembleinfo as
+		where
+		(m.mi_memname like #{value} or
+		m.mi_memid like #{value} or
+		b.boardcontents like #{value})
+		and as.ai_assemblename = #{assemble};
+
+   	</select>
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-	
-	
+
 </mapper>

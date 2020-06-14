@@ -65,6 +65,8 @@ public class SignupController {
 		String Pw = passEncoder.encode(password);
 		dto.setMi_memPw(Pw);
 		
+		dao.insertOne(dto);
+		
 		
 		return RE+MAIN;
 	}
