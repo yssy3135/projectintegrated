@@ -36,8 +36,9 @@ import kr.co.chat.dto.MemberidDTO;
 @RequestMapping("/chatroom")
 public class ChatRoomController {
 
-	@Autowired
-	private ChatRoomRepository chatRoomRepository;
+	/*
+	 * @Autowired private ChatRoomRepository chatRoomRepository;
+	 */
 	@Inject
 	private ChatDAO dao;
 
@@ -72,12 +73,12 @@ public class ChatRoomController {
 
 	// 모든 채팅방 목록 반환
 	@GetMapping("/rooms")
-	@ResponseBody
-	public List<ChatRoom> room(HttpServletRequest req) {
-		System.out.println(req.getAttribute("id"));
-
-		return chatRoomRepository.findAllRoom();
-	}
+//	@ResponseBody
+//	public List<ChatRoom> room(HttpServletRequest req) {
+//		System.out.println(req.getAttribute("id"));
+//
+//		return chatRoomRepository.findAllRoom();
+//	}
 
 	// 채팅바(메인화면 오면 
 	@RequestMapping("/room/side")
@@ -97,7 +98,7 @@ public class ChatRoomController {
 		
 		model.addAttribute("memlist", memlist);
 		
-		 System.out.println(session.getAttribute("id"));
+		 System.out.println(session.getAttribute("mi_memID"));
 		/* int memberno = (int) session.getAttribute("bno"); */
 		 
 		 

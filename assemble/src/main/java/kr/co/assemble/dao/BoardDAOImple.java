@@ -99,9 +99,9 @@ public class BoardDAOImple implements BoardDAO{
 	@Override
 	public List<searchDTO> searchlist(searchParamDTO searchparamdto) {
 		
-		ss.selectList("search", searchparamdto);
+		List<searchDTO> list = ss.selectList("search", searchparamdto);
 		
-		return null;
+		return list;
 	}
 
 

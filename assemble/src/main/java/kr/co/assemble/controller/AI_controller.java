@@ -106,12 +106,12 @@ public class AI_controller {
 //		System.out.println(check.getMi_memberNo());
 //		session.setAttribute("mi_memberNo", mi_memNo);
 		session.setAttribute("memberno", mi_memNo);
-		session.setAttribute("mi_memName", check.getMi_memName());
+		session.setAttribute("mi_memname", check.getMi_memName());
 		if(check.getmi_memID() != null && passMatch) {
-			session.setAttribute("mi_memID", check.getmi_memID());
+			session.setAttribute("mi_memid", check.getmi_memID());
 			
 		}else {
-			session.setAttribute("mi_memID", null);
+			session.setAttribute("mi_memid", null);
 			return ASSEMBLELOGIN;
 		}
 		

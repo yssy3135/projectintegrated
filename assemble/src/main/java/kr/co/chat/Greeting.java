@@ -9,8 +9,18 @@ public class Greeting {
 	private String sendTime;
 	private String id;
 	private String sender;
+	private String roomid;
 	
 	
+	public String getRoomid() {
+		return roomid;
+	}
+	public void setRoomid(String roomid) {
+		this.roomid = roomid;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public Greeting() {
 
 		// TODO Auto-generated constructor stub
@@ -45,6 +55,14 @@ public class Greeting {
 		this.sendTime = sendTime;
 		this.id = id;
 		this.sender = sender;
+	}
+	public Greeting(String content, String sendTime, String id, String sender, String roomid) {
+		super();
+		this.content = content;
+		this.sendTime = sendTime;
+		this.id = id;
+		this.sender = sender;
+		this.roomid = roomid;
 	}
 	
 	

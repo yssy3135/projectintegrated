@@ -294,7 +294,7 @@
   		<!-- select * from memberinfo where mi_memberno = #{memberno} -->
   		select *
 		from memberinfo
-		where mi_assembleName = 'withh';
+		where mi_assembleName = #{assemblename};
   	</select>
   	
   	<insert id="inputchat">
@@ -330,13 +330,14 @@
 		on f.bno = b.bno
 		left outer join requestboard r
 		on r.bno = b.bno
-		left outer join assembleinfo as
 		where
 		(m.mi_memname like #{value} or
 		m.mi_memid like #{value} or
 		b.boardcontents like #{value})
-		and as.ai_assemblename = #{assemble};
-
+		and m.ai_assemblename = #{assemble}
+		;
+   	
+   	
    	</select>
    
 

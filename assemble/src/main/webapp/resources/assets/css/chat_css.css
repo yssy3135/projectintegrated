@@ -3,59 +3,86 @@
 
 /* 채팅 목록 CSS  */	
 	
-	.all{
-	    width: 260px;
-	    height: 100vh;
-	    background: #e5e5e5;
-	    margin-top : 10%;
-	    font-size: 0;
-	    border-radius: 5px;
-	    overflow: hidden;
-	   	position: fixed;
-	  	bottom: 0;
-	  	right: 28px;
+	body {
+		background: #F2F2F2;
+		font-family: "나눔스퀘어라운드 Regular";
 	}
 	
-	#list{
-	  	width: 260px;
-	    height: 100vh;
-	    background: #e5e5e5;
-	    margin: 0 auto;
-	    font-size: 0;
+ 	.all{
+	    width: 20%;
+	    height: 100%;
+	   	position: fixed;
+	    background: #F2F2F2;
+	  	margin-top: 4%;
+	  	margin-left: 80%;
+	    margin:0 auto;
 	    border-radius: 5px;
 	    overflow: hidden;
-	   	position: fixed;
-	   	top: 25px;
-	   	
+	  	bottom: 0;
+	  	border-left: solid 1px #DFE7E9;
 	}
 	
 	#list_header {
-	  	width: 260px;
-	    height: 30vh;
-	    background: #e5e5e5;
+	  	width: 20%;
+	    height: 36px;
+	    background: #F2F2F2;
 	    margin: 0 auto;
 	    font-size: 0;
 	    border-radius: 5px;
 	    overflow: hidden;
 	   	position: fixed;
-	  	right: 28px;
+	   	top: 70px;
+
+	}
+	
+	#list{
+	    width: 20%;
+	    height: 100%;
+	    background: #F2F2F2;
+	    margin: 0 auto;
+	    font-size: 0;
+	    border-radius: 5px;
+	    overflow: hidden;
+	    position: fixed;
+	    top: 100px;  	
+	}
+	
+	#list_footer {
+		width: 20%;
+	    height: 50px;
+	    background: #F2F2F2;
+	    margin: 0 auto;
+	    font-size: 0;
+	    border-radius: 5px;
+	    overflow: hidden;
+	   	position: fixed;
+		bottom: 0;
 	}
 	
 	#head_font{
 		font-size: 18px;
-		color: black;
+		color: #888888;
 		font-weight: bold;
+
+		padding-left: 5px;
+		text-align: left;
+		vertical-align: middle;
+		
 	}
 	
 	.plus{ 
 		font-size: 15px;
-		float: right;	
+
+		text-align: left;
+	    vertical-align: middle;
+	    float: right;
+			
 	}
 	
-	aside{
-	    width: 260px;
-	    height: 1080px;
-	    background-color: #e5e5e5;
+	aside {
+	    width: 100%;
+	    height: 100%;
+	    background-color: #F2F2F2;
 	    font-size: 15px;
 	    vertical-align: top;
 	}
@@ -86,21 +113,41 @@
 	  border: none;
 	}
 	
+/* 	a {
+		text-decoration: none;
+	} */
+	
+	
 	aside li a:hover {
-		text-decoration:none;				/* a태크에 마우스 가져다 되면 밑줄 제거   */
+		color: black;
+		text-decoration:none !important;				/* a태크에 마우스 가져다 되면 밑줄 제거   */
 		cursor: pointer;
 	}
+	
+	aside li a:visited{				
+		text-decoration: none !important;
+	}
+	
+	aside li a:active{				
+		text-decoration: none !important;
+	}
+	
 	
 	aside ul{						/* 채팅 목록의 스크롤  */
 	    padding-left: 0;
 	    margin: 0;
 	    list-style-type: none;
-	    overflow-y: scroll;
-	    height: 94%;
+
+	}
+	
+	#alllist{
+		height: 100%;
+		overflow-y: scroll;
 	}
 	
 	aside li{
-	    padding: 10px 10px;
+	    padding: 8px 8px;
+	    padding-left: 10px;
 	}
 	
 	aside li:hover{
@@ -112,12 +159,6 @@
 	    cursor: pointer;
 	}
 	
-	aside li div{
-	    display: inline-block;
-	    vertical-align: top;
-	    margin-top: 10px;
-	}
-	
 	aside li h2{				/* 접속자 리스트 이름  */
 	    font-size: 14px;
 	    color: black;
@@ -125,9 +166,16 @@
 	    margin-bottom: 0;  
 	}
 	
-	aside li a{				
+	
+	aside li div{
+	    display: inline-block;
+
+	}
+	
+	aside li a{
 	    padding-left: 5px;
-	    width: 5px;
+	    /* width: 5px; */
+	    color: black;
 	    text-decoration: none;
 	}
 	
@@ -135,7 +183,7 @@
 	.dot {
 		height: 8px;
 		width: 8px;
-		background-color: #bbb;			/* 접속 안한 상태 컬러==> 멤버들 접속현황 (그린/레드로 구분  */
+		background-color: #bbb;			/* 멤버들 접속현황 (그린[#2ecc71]/그레이[#bbb]로 구분)  */
 		border-radius: 50%;
 		display: inline-block;
 		text-decoration: none;
@@ -156,8 +204,6 @@
 		padding: 0;
 	}
 	
-	
-	
 	.panel{
 	    margin-bottom: 0px;
 	}
@@ -165,14 +211,11 @@
 	.chat-window{
 		width: 330px;
 	    bottom: 0;
-		right: 275px;
+		right: 366px;
 	    position: fixed;
 	    float: right;
 	}
 	
-	.chat-window > div > .panel{
-	    border-radius: 5px 5px 0 0;
-	}
 	
 	#iconchat {
 		float: right;
@@ -180,7 +223,6 @@
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-	
 	
 	.icon_arrow-down{
 	    padding: 2px 4px;
@@ -194,28 +236,30 @@
 	    padding: 2px 4px;
 	}
 	
+	
 	.msg_container_base{
-		background: #e5e5e5;
+		background: #F5F5F5;
 		margin: 0;
 		padding: 0 10px 10px;
 		height: 313px;
 		max-height: 313px;
 		overflow-x: hidden;
+
 	}
 	
 	.top-bar {
-	  background: #666;
+	  background : #9499A3;
 	  color: white;
 	  padding: 5px;
 	  position: relative;
 	  overflow: hidden;
+	  height: 35px;
 	}
 	
 	#paneltit{
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-	
 	
 	#panel-title {
 		float: left;
@@ -227,6 +271,7 @@
 	#sent {
 		float: right;
 		padding-right: 10px;
+		background-color: #ebf2ff;
 	}
 	
 	.msg_receive{
@@ -243,6 +288,10 @@
 	    padding-left: 0;
 	}
 	
+	#msgsent {
+		background: #ebf2ff;
+	}
+	
 	.messages {
 	  background: #ffffff;
 	  padding: 5px;
@@ -251,14 +300,14 @@
 	  max-width: 100%;
 	}
 	
-	.messages > p {
+	.messages > p {						/* 메세지 대화 부분  */
 	    font-size: 12px;
 	    margin: 0 0 0.2rem 0;
 	}
 	
-	.messages > time {
+	.messages > time {					/* 메세지 시간 부분 */
 	    font-size: 10px;
-	    color: #ccc;
+	    color: darkgray;
 	}
 	
 	.msg
@@ -296,7 +345,7 @@
 	  padding-bottom: 10px;
 	}
 	
-	.msg_sent > p{
+	.msg_sent > p {
 	    text-align: right;
 	    padding-right: 3px;
 	}
@@ -304,7 +353,6 @@
 	.msg_receive > p {
 		padding-left: 3px;
 	}
-	
 	
 	.msg_sent > time{
 	    float: right;
@@ -331,10 +379,11 @@
 	
 	.panel-footer {
 	    padding: 10px 15px;
-	    background-color: lightgrey;
-	    border-top: 1px solid #ddd;
+	    background-color: #F2F2F2;
+	    border-top: 1px solid #F5F5F5;
 	    border-bottom-right-radius: 3px;
 	    border-bottom-left-radius: 3px;
+	    border: 1px solid #DFE7E9;
 	
 	}
 	
@@ -344,7 +393,7 @@
 	
 	.pluschat-window {
 		bottom: 0;
-		right: 547px;
+		right: 637px;
 		width: 330px;
 	    position: fixed;
 	    float: right;
@@ -360,13 +409,13 @@
 	}
 	
 	.new-chat {								/* 새로운 채팅 시작하기 버튼  */
-		color: gray;
+		color: black;
 		font-size: 15px;
         line-height: 36px;
 		width: 100%;
 		height: 51px;
 	    padding: 5px 10px;
-	    background-color: lightgrey;
+	    background-color: #F5F5F5;
 	   	border-top: 1px solid #d8d8d8;
 	    border-bottom-right-radius: 3px;
 	    border-bottom-left-radius: 3px;
@@ -374,11 +423,11 @@
 	    outline: 0;
 	}
 	
-	#comment {
+	#comment {							/* 새로운 대화 헤드바   */
 		width: 150px;
 	}
 	
-	#iconclose {
+	#iconclose {						/* 새로운 대화 종료 버튼 */
 		float: right;
 		padding-left: 5px;
 		padding-right: 5px;
@@ -401,7 +450,7 @@
 	#myInput:focus {outline: 1px solid #ddd;}
 	
 	.dropdown-content {
-	  background-color: #f6f6f6;
+	  background-color: white;
 	  max-height: 315px;
 	  height: 315px;
 	  width: 267px;
@@ -422,5 +471,9 @@
 	
 	.plusshow {display: block;}
 
-
 	
+	
+	
+	
+	
+		

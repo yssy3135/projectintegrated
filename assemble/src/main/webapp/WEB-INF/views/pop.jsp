@@ -21,7 +21,7 @@
 <script type="text/javascript">
 
 
-var stompClient = null;
+
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -35,7 +35,7 @@ function setConnected(connected) {
     $("#greetings").html("");
 }
 
-function connect() {
+/* function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     console.log(socket);
     console.log("coon : ${roomId}");
@@ -51,20 +51,23 @@ function connect() {
         
         
     //stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
-      stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+     
     
     }); 
     
     
-}
+} */
 
-function disconnect() {
+
+
+
+/* function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
     setConnected(false);
     console.log("Disconnected");
-}
+} */
 
 /* function sendName() {
 	var name =  $("#name").val();
@@ -113,8 +116,7 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
+    
     $( "#send" ).click(function() { sendName(); });
 });
 
@@ -169,12 +171,12 @@ $(function () {
 			
 	        <ul id="alllist">
 	        	<br />
-	        	<h3>대화</h3>
+	        	<span id="head_font">대화</span>
 	    		<c:forEach var="a" items="${memlist }">
 		    		<c:choose>
-		    			<c:when test="${mi_memID != a.mI_memId}">
+		    			<c:when test="${mi_memid != a.mI_memId}">
 		    			<li class="memno">
-				        	<span class="dot"></span>				<!-- dot = 로그인/비로그인 으로 색 구분  -->
+				        	<span class="dot" id ="${a.mI_memberNo}d" ></span>				<!-- dot = 로그인/비로그인 으로 색 구분  -->
 				        	<div>
 				        		<h2 class="memname" id="${a.mI_memId }">  ${a.mI_memName}(${a.mI_memId })</h2>						<!-- 사용자 id와 이름 가져오기 -->
 				        		<input type="hidden"  value="${a.mI_memberNo}" />
@@ -183,7 +185,7 @@ $(function () {
 						</li>
 		    			</c:when>
 		    			
-		    			<c:when test="${ mi_memID == a.mI_memId }">
+		    			<c:when test="${ mi_memid == a.mI_memId }">
 		    				<input type="hidden" id="myno" value= "${a.mI_memberNo}" />
 		    				<input type="hidden" id="myname" value= "${a.mI_memName}" />
 		    			</c:when>
@@ -229,7 +231,7 @@ $(function () {
                     <div class="col-md-5 col-xs-5" style="text-align: right;" id="iconchat">
                         <a href="#"><span id="minim_chat_window" class="glyphicon glyphicon-arrow-down icon_arrow-down"></span></a>
                         <a href="#"><span id="plus_chat_window" class="glyphicon glyphicon-plus icon_plus" onclick="newopenForm()"></span></a>
-                        <a href="#"><span class="glyphicon glyphicon-remove icon_close_chat" data-id="chat_window_1"></span></a>
+                        <a href="#"><span class="glyphicon glyphicon-remove icon_close_chat" data-id="chat_window_1"  onclick="reset()"></span></a>
                     </div>
                     
                 </div>
@@ -294,7 +296,7 @@ $(function () {
                
                 	<c:forEach var="a" items="${memlist }">
 		    		<c:choose>
-		    			<c:when test="${id != a.mI_memId}">
+		    			<c:when test="${mi_memid != a.mI_memId}">
 						<div  id = "${a.mI_memberNo}" class = "memberblock">
 		                	<a href="#" onclick= startchat("<c:out value="${a.mI_memName}"/>","<c:out value="${a.mI_memId}"/>","<c:out value="${a.mI_memberNo}"/>") >
 		                		<span > ${a.mI_memName}(${a.mI_memId })</span>            
@@ -352,10 +354,21 @@ $(function () {
 		
 		
 	})
+	
+	
+	
+		
+		
+	
 
 	});
 	
 	
+		function reset() {
+			document.getElementById("panel-title").innerText = ""; 
+			console.log("공백");
+			
+		}
 	
 	
 	
@@ -368,11 +381,78 @@ $(function () {
 	var nameid;
 	var sendernameid;
 	var myno = document.getElementById("myno").value;
+	var stompClient;
+	
+
+	$(function () {
+		connect();
+		
+	});
+		
+	
+		function connect(){
+		  var socket = new SockJS('/gs-guide-websocket');
+		 
+		  	 stompClient = Stomp.over(socket);
+		   	 console.dir(socket);
+
+		
+		 stompClient.connect({}, function (frame) {
+		    	setConnected(true);
+		        console.log('Connected: ' + frame);
+		        
+		        // 주소 구독
+		        stompClient.subscribe('/queue/1', function (greeting) {
+		        
+		
+		          /*  showGreeting((JSON.parse(greeting.body).id, JSON.parse(greeting.body).content,  JSON.parse(greeting.body).sendTime)); */
+		           // 메시지 수신시
+		           
+	/* 	           console.log("방이름:"+room);
+		           console.log("보낸사람 : "+JSON.parse(greeting.body).sender); */
+		           
+
+				   
+ 		           if(JSON.parse(greeting.body).sender != myno){
+					   console.log("방이름 옐로우"+JSON.parse(greeting.body).sender);
+  
+					   console.log( document.getElementById(JSON.parse(greeting.body).sender+"d").parentNode.childNodes[5].innerText);
+			
+			           console.log(document.getElementById("panel-title").innerText);
+			           console.log( document.getElementById(JSON.parse(greeting.body).sender+"d").parentNode.childNodes[5].innerText);
+					 
+					 var panel =   document.getElementById("panel-title"); 
+					 if(panel.innerText !=  document.getElementById(JSON.parse(greeting.body).sender+"d").parentNode.childNodes[5].innerText){
+						 
+					   document.getElementById(JSON.parse(greeting.body).sender+"d").style.backgroundColor ="blue";				
+						 
+					 }
+					 
+				 
+		           }
+		         
+
+		        
+		    //stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+		     // stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+		    	   
+		   
+		    
+		        
+		    
+		   	 });// connection end
+		   	});
+		 
+		 
+		};
+		
+		
+		
 	
 	/* $(".memno").click(function(){ */
 		$(document).on("click",".memno",function(){
-				
-			disconnect();
+		
+		
 			console.log("사이드바 클릭")
 			
 			var room;
@@ -385,8 +465,8 @@ $(function () {
 				room = receiverno;
 				/*  receiverno = this.childNodes[1].childNodes[0].id.split(","); */
 				room = this.childNodes[1].childNodes[1].id;
-				console.log("방번호"+room);
-			 
+				
+				console.log("방번호"+receivername);
 			 
 			 
 		
@@ -396,6 +476,7 @@ $(function () {
 				 var receiverno = this.childNodes[5].childNodes[5].value;
 				 console.log()
 			
+				document.getElementById(receiverno+"d").style.backgroundColor ="gray";	
 				 var me = document.getElementById("myno").value;
 				 // var receiverno = this.childNodes[5].childNodes[5].value;
 				
@@ -407,6 +488,7 @@ $(function () {
 		
 			}
 			
+			
 			document.getElementById("chatbox").style.display = "block";
 			  var memno = document.getElementsByClassName("memno");
 			 
@@ -415,15 +497,15 @@ $(function () {
 			  console.log(document.getElementById("myno").value);
 			  console.log(document.getElementById("myname").value);
 			
-			  sendernameid = document.getElementById("myname").value+"(${mi_memID})";
+			  sendernameid = document.getElementById("myname").value+"(${mi_memid})";
 			  console.log(sendernameid);
 			  
 			  //사용자 이름 표시
 				 var aaa=  document.getElementById("panel-title"); 
-			  
+			  	console.dir(receivername);
 				 aaa.innerText = receivername;
 				 console.log(aaa.innerText);
-				 nameid = receivername;
+				 nameid = sendernameid;
 		 
 		
 		 // sub 방 이름
@@ -437,122 +519,143 @@ $(function () {
 			room = me+receiverno
 		} */
 		   
-		 	console.log(room)
+		 	console.log("룸네임"+room)
 		 rooom = room;
 		
-	    	var socket = new SockJS('/gs-guide-websocket');
-	   	 console.log(socket);
-	   	 console.log("coon : ${roomId}");
-	    
-	  	 stompClient = Stomp.over(socket);
-	    
-	   	 stompClient.connect({}, function (frame) {
-	    	setConnected(true);
-	        console.log('Connected: ' + frame);
-	        
-	        stompClient.subscribe('/queue/'+room, function (greeting) {
-	          /*  showGreeting((JSON.parse(greeting.body).id, JSON.parse(greeting.body).content,  JSON.parse(greeting.body).sendTime)); */
-	           
-	           // 메시지 수신시
-	           
-	           console.log("비교" + JSON.parse(greeting.body).sender +":"+myno);
-	           
-	           if(JSON.parse(greeting.body).sender != myno){
-	           
-			       	var receivebody =   '<div class="row msg_container base_receive">'+
-		            '<div class="col-xs-10 col-md-10">'+
-					   '<div class="messages msg_receive">'+
-				       '<p> '+JSON.parse(greeting.body).content+'</p>'+
-		           	'<time datetime="2009-11-13T20:00">'+JSON.parse(greeting.body).id+JSON.parse(greeting.body).sendTime+'</time>'+
-				       '</div>'+
-					   '</div>'+
-					   '</div>'
+/*----------------------------------------------------------------  */
+ 
+		    $("").appendTo("#messagebody");
+		   $("#messagebody").empty();
+		   
 	
-	
-			
-					$(receivebody).appendTo("#messagebody");	
-	           }
-	           
-	           
-	        });
-	        
-	        
-	    //stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
-	      stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
-	    
-	    });
-	   
-	   
-	    // 채팅 내용 불러오기
-	    $("").appendTo("#messagebody");
-	   $("#messagebody").empty();
-	    
-	    $.ajax({
-	    	url: "/chatroom/room/getchat",
-	    	type : "POST",
-	    	dateType :"list",
-	    	data : {"roomid":room},
-	    	success: function(list){
-		  		for(var i=0 ; i <list.length;i++){
-		  			var body = "";
-			  			var memno = document.getElementsByClassName("memno");
-			    		console.log("성공"+list[i].chatcontent);
-			  			
-			  			if(list[i].senderno == myno){
-				  			 body =      '<div class="row msg_container base_sent">' +
-							'<div class="col-md-10 col-xs-10 " id="sent">' +
-			                '<div class="messages msg_sent">' +
-			                '<p>'+ list[i].chatcontent + '</p>'+
-			                ' <time>'+sendernameid+'• Today '+list[i].chattime+'</time>'+
-			                '</div>' +
-			                '</div>' +
-						    '</div>';
+		  connect2();
+ 			
+		   function connect2() {
+				 var socket2 = new SockJS('/socket2');	
+				 stompClient2= Stomp.over(socket2);
+			   	
+			    stompClient2.connect({}, function (frame) {
+			    	
+			        setConnected(true);
+			       
+			   	console.log("커넥트 2")
+					 stompClient2.subscribe('/queue/'+room, function (greeting) {
+						 
+							console.log("불거오기 완료")
+						
+						    // 채팅 내용 불러오기
+						    
+					
+							  
+							
+					           if(JSON.parse(greeting.body).sender != myno){
+							       	var receivebody =   '<div class="row msg_container base_receive">'+
+						            '<div class="col-xs-10 col-md-10">'+
+									   '<div class="messages msg_receive">'+
+								       '<p> '+JSON.parse(greeting.body).content+'</p>'+
+						           	'<time datetime="2009-11-13T20:00">'+JSON.parse(greeting.body).id+JSON.parse(greeting.body).sendTime+'</time>'+
+								       '</div>'+
+									   '</div>'+
+									   '</div>'
+					
+					
+							
+									$(receivebody).appendTo("#messagebody");	
+					           }
+					           
+					           
+					        });
+						    
+						    
+						    
+						    
+						    
+						    
+						    
+						    
+						    
+				 		});   //불러오기end
+			        
+			        
+			  
+			     
+			    
 		
-			  			}else {
-					       	
-			  				console.log(document.getElementById(list[i].senderno).childNodes[1]) 
-			  				
-			  				body =   '<div class="row msg_container base_receive">'+
-				             '<div class="col-xs-10 col-md-10">'+
-							   '<div class="messages msg_receive">'+
-						       '<p> '+list[i].chatcontent+'</p>'+
-						       ' <time>'+document.getElementById(list[i].senderno).childNodes[1].innerText+'• Today '+list[i].chattime+'</time>'+
-						       '</div>'+
-							   '</div>'+
-							   '</div>'
-			  				
-			  				
-			  				
-			  				}
-			  			
-		
-						$(body).appendTo("#messagebody");
-			  			
-		  			
-		    			
-		    			
-		    		} 
-		  	
+			    
+			    
+			    
+			    $.ajax({
+			    	url: "/chatroom/room/getchat",
+			    	type : "POST",
+			    	dateType :"list",
+			    	data : {"roomid":room},
+			    	success: function(list){
+				  		for(var i=0 ; i <list.length;i++){
+				  			var body = "";
+					  			var memno = document.getElementsByClassName("memno");
+					    	//	console.log("성공"+list[i].chatcontent);
+					  			
+					  			if(list[i].senderno == myno){
+						  			 body =      '<div class="row msg_container base_sent">' +
+									'<div class="col-md-10 col-xs-10 " id="sent">' +
+					                '<div class="messages msg_sent" id="msgsent">' +
+					                '<p>'+ list[i].chatcontent + '</p>'+
+					                ' <time>'+sendernameid+'• '+list[i].chattime+'</time>'+
+					                '</div>' +
+					                '</div>' +
+								    '</div>';
+				
+					  			}else {
+							       	
+					  			/* 	console.log(document.getElementById(list[i].senderno).childNodes[1])  */
+					  		
+					  				body =   '<div class="row msg_container base_receive">'+
+						             '<div class="col-xs-10 col-md-10">'+
+									   '<div class="messages msg_receive">'+
+								       '<p> '+list[i].chatcontent+'</p>'+
+								       ' <time>'+document.getElementById(list[i].senderno).childNodes[1].innerText+'•'+list[i].chattime+'</time>'+
+								       '</div>'+
+									   '</div>'+
+									   '</div>'
+					  				
+					  				
+					  				
+					  				}
+					  			
+				
+								$(body).appendTo("#messagebody");
+					  			
+				  			
+				    			
+				    			
+				    		} 
+				  	
 
-	    		
-	    		
-	    		
-	    	}
-	    	
-	    	
-	    });
-	    
-	    
-	    
-	    
+			    		
+			    		
+			    		
+			    	}
+			    	
+			    	
+			    });// ajax end
+			    
+			    
+			    
+			    
+			}
 
+		   
+		   
+ 
+		    
 		
+	   	 
 	});
 	
 	
 /* 	function openForm() {   //이름클릭
 	  document.getElementById("chatbox").style.display = "block";
-	  var memno = document.getElementsByClassName("memno");
+	  var memno = document.getElementsByClassName("memno");YG
 	  console.dir(this);
 	
 		
@@ -563,6 +666,8 @@ $(function () {
 	function closeForm() {
 	  document.getElementById("chatbox").style.display = "none";
 	}
+	
+	
 	
 	$(document).on('click', '.panel-heading span.icon_arrow-down', function (e) {
 	    var $this = $(this);
@@ -601,7 +706,7 @@ $(function () {
 	});
 	
 	
-	// send function start
+	// 보내기 function start
 	function send(sender){
 
 		//document.getElementById("myname").value
@@ -627,11 +732,13 @@ $(function () {
 				 'roomid' : rooom,
 				 'sender' : document.getElementById("myno").value
 				 };
+		
 		console.log(JSON.stringify(message));
 
-	    stompClient.send("/app/welcome/"+rooom, {}, JSON.stringify(message));
-	    console.log("세션${id}" );
-	    //세선 가져오는걸 id로		
+	   stompClient.send("/app/welcome/"+rooom, {}, JSON.stringify(message));
+	   stompClient2.send("/app/status", {}, JSON.stringify(message));
+
+
 	   
 	   
 	    //여기서'name'이라는 변수에 name을 받아서 전송
@@ -648,7 +755,7 @@ $(function () {
 		} else{
 			var body =      '<div class="row msg_container base_sent">' +
 							'<div class="col-md-10 col-xs-10 " id="sent">' +
-	                        '<div class="messages msg_sent">' +
+	                        '<div class="messages msg_sent" id="msgsent">' +
 	                        '<p>'+ chat + '</p>'+
 	                        ' <time datetime="2009-11-13T20:00">'+sendernameid+'•'+time+'</time>'+
 	                        '</div>' +
@@ -708,14 +815,14 @@ $(function () {
 	}
 	
 	// 연결 끊기
-	function disconnect() {
-	    if (stompClient !== null) {
-	        stompClient.disconnect();
+ 	function disconnect() {
+	    if (stompClient2 !== null) {
+	        stompClient2.disconnect();
 	    }
 	    setConnected(false);
 	    console.log("Disconnected");
-	}
-	
+	};
+	 
 	
 	
 	
@@ -728,6 +835,11 @@ $(function () {
 	    send()
 	  }
 	});
+	
+	
+	
+	
+	
 </script>
 
 
@@ -863,8 +975,9 @@ function startchat(name,id,plusmemberno) {
 $("#new-chat").click(function(){
 	var title ="";
 	var roomid=[];
-	
-	if(map.length < 1){
+		
+
+	if(map.size < 1){
 		alert("2명이상 선택해주세요");
 		
 		// 블록색 원래대로
@@ -884,8 +997,8 @@ $("#new-chat").click(function(){
 			roomid.push(Number(item[0]) );
 			}
 			roomid.push(Number(document.getElementById("myno").value));	
-		console.log(title);
-		console.log(roomid.sort(function(a, b) { // 오름차순
+			console.log(title);
+			console.log(roomid.sort(function(a, b) { // 오름차순
 		    return a - b;
 	
 		}));
@@ -910,48 +1023,53 @@ $("#new-chat").click(function(){
 		
 		//backgroundColor = "#f6f6f6";
 		//block.style.backgroundColor = "#f6f6f6";
+		console.dir(document.getElementById(togetherno));
 		
-	
-	
-	
-	
-		 var aaa=  document.getElementById("panel-title"); 
-		 aaa.innerText = title;
-		 $("#messagebody").empty();
-	
-		 // 단체채팅 생성하면 목록에 추가
-		 var newgroupchat = 
-			 '<li class="memno" id ="groupchat">'+		
-		 	'<div>'+
-		 		'<h2 class="memname" id='+roomid+'>'+ title+' </h2>'+						
-		 	'</div>'+
-			'</li>';
-		 
+		if(document.getElementById(togetherno) == null){
 			
-	/* 		<li class = "memno" id = "groupchat">
-			<div id = "groupchat">
-				<h2 class="memberno" id="${i.togetherno}"> ${i.roomname} </h2>
-		</div>
-			</li>	 */
-			
-			
-		 
-		 $(newgroupchat).appendTo("#group");	
-		 
-		 
-	 		for(var i = 0 ; i < roomid.length;i++){
-				
-			    $.ajax({
-			    	url: "/chatroom/room/insertgroup",
-			    	type : "POST",
-			    	data : {"togetherno":togetherno,
-			    			"assemblename" : "withh",  //세션에서 어셈블이름 불러와야함
-			    			"roomname" : title,
-			    			"memberno": roomid[i]
-			    	}
-			    });
+			 var aaa=  document.getElementById("panel-title"); 
+			 aaa.innerText = title;
+			 $("#messagebody").empty();
+		
+			 // 단체채팅 생성하면 목록에 추가
+			 var newgroupchat = 
+				 '<li class="memno" id ="groupchat">'+		
+			 	'<div>'+
+			 		'<h2 class="memname" id='+roomid+'>'+ title+' </h2>'+						
+			 	'</div>'+
+				'</li>';
 			 
-			} 
+				
+		/* 		<li class = "memno" id = "groupchat">
+				<div id = "groupchat">
+					<h2 class="memberno" id="${i.togetherno}"> ${i.roomname} </h2>
+			</div>
+				</li>	 */
+				
+				
+			 
+			 $(newgroupchat).appendTo("#group");	
+			 
+			 
+		 		for(var i = 0 ; i < roomid.length;i++){
+					
+				    $.ajax({
+				    	url: "/chatroom/room/insertgroup",
+				    	type : "POST",
+				    	data : {"togetherno":togetherno,
+				    			"assemblename" : "withh",  //세션에서 어셈블이름 불러와야함
+				    			"roomname" : title,
+				    			"memberno": roomid[i]
+				    	}
+				    });
+				 
+				} 
+		}else {
+			
+		
+			alert("채팅방이 존재합니다.");
+
+		 	}//null if end
 
 	}// if end
 });
