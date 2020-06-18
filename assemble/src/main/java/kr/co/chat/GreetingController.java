@@ -32,9 +32,9 @@ public class GreetingController {
 	
 	
 	/* @SendTo("/queue/{roomid}") */
-	@MessageMapping("/status")
-	@SendTo("/queue/1")
-	public Greeting welcome(HelloMessage message) throws Exception{
+	@MessageMapping("/status/{memberno}")
+	@SendTo("/queue/{memberno}")
+	public Greeting welcome(HelloMessage message,@DestinationVariable String memberno) throws Exception{
 		
 		System.out.println(message.getRoomid());
 		System.out.println("노란색");
