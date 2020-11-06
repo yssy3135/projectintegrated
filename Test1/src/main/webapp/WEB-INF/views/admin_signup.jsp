@@ -29,7 +29,7 @@ $(function(){
 		}
 		$.ajax({
 			type:"post",
-			url : "<c:url value='sendMail'/>",
+			url : "<c:url value='/sendMail'/>",
 			data : "mi_mememail=" + $("#inputEmail").val() + "&ran=" + $("#ran").val(),
 			datatype : "json",
 			//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
@@ -38,7 +38,7 @@ $(function(){
 			중 '&'는 하나의 파라미터가 끝나고 다음 파라미터가 온다는 의미이다.
 			그런데 다음과 같이 job의 값에 &가 포함된다면 시스템은 job의 값을 제대로 인식할수 없게 된다. */
 			success : function(data){
-				alert("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
+				alert("사용가능한 이메일입니다. 인증번호를 입력해주세요");
 				console.log($('#inputEmail').val());
 				$("#re-code").attr("disabled", false);
 			},

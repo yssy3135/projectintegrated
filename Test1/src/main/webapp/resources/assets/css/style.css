@@ -17,7 +17,7 @@ body {
     padding: 0px !important;
     margin: 0px !important;
     font-size: 13px;
-    font-family: "나눔스퀘어라운드 Regular";
+    font-family: "ë‚˜ëˆ”ìŠ¤í€˜ì–´ë¼ìš´ë“œ Regular";
     
     width: 100vh;
 
@@ -260,10 +260,10 @@ margin-top: 0.65em;
     position: fixed;
     background: #F2F2F2;
     /* margin-top: 50px; */
-    margin-left: 40px;
-    
+    /* margin-left: 40px; */
     margin-top: 6vh;
     display: block;
+    border-right: 1px solid #96dada;
 }
 
 
@@ -352,7 +352,7 @@ ul.sidebar-menu {
 }
 
 #sidebar > ul > li.active > ul.sub, #sidebar > ul > li > ul.sub > li > a {
-    display: block;
+    display: inline;
 }
 
 ul.sidebar-menu li ul.sub li{
@@ -404,6 +404,9 @@ ul.sidebar-menu li{
 
 ul.sidebar-menu li.sub-menu{
     line-height: 15px;
+    font-size : 20px;
+    margin-bottom: 30px;
+    margin-left : 20px;
 }
 
 ul.sidebar-menu li a span{
@@ -484,7 +487,7 @@ ul.sidebar-menu li a.active i {
 
 .black-bg {
     background: white;
-    border-bottom: 1px solid #F8FFFF;
+    border-bottom: 1px solid #96dada;
 }
 
 .wrapper {

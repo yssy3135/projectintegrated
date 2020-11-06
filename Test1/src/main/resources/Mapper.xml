@@ -143,7 +143,7 @@
 	<!-- 참여가능한 그룹 -->
 	<select id="selectAllGroup" resultType="A_GDto" parameterType="A_GDto">
 		select distinct g.groupname, a.ai_assemblename, g.groupno, g.categoryno, c.memberno
-		from assembleinfo as a join groups as g 
+		from assembleinfo as a join `groups` as g 
 		on a.ai_memberno = g.memberno
 		left join composed as c
 		on c.groupno = g.groupno and c.memberno = #{memberno}
@@ -157,27 +157,27 @@
 
 	<select id="selectCategoryGroup" resultType="GroupDto" parameterType="GroupDto">
 		select g.groupname, g.categoryno, g.groupno
-		from groups as g join composed as c
+		from `groups` as g join composed as c
 		on g.groupno = c.groupno
-		where c.memberno = #{memberno}
+		where g.memberno = #{memberno}
 	</select>
 	
 	<!-- 그룹생성시 미분류 카테고리를 1번이라고 했을때, 처음 생성그룹은 항상 카테고리 1번으로 들어감. -->
 	<insert id="insertGroup" parameterType="GroupDto">
-		insert into groups(categoryno, memberno, groupname)
+		insert into `groups`(categoryno, memberno, groupname)
 		values (#{categoryno}, #{memberno}, #{groupname})
 	</insert>
 	
 	<!-- 미분류카테고리에 있는 그룹을 다른 카테고리로 이동 -->
 	<update id="updateGroupCategory" parameterType="GroupDto">
-		update groups
+		update `groups`
 		set categoryno = #{categoryno}
 		where groupno = #{groupno}
 	</update>
 	
 	<!-- 그룹 이름 변경하기 -->
 	<update id="updateGroupName" parameterType="GroupDto">
-		update groups
+		update `groups`
 		set groupname = #{groupname}
 		where groupno = #{groupno} and categoryno = #{categoryno}
 	</update>
@@ -208,11 +208,11 @@
 		select * from composed
 	</select>
 	
-	<!-- 그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO) -->
+	<!-- 그룹별 정보, 구성원 정보(`groups`_Memberinfo_Composed_DTO) -->
 	<!--그룹장이름 -->
 	<select id="selectGroupMasterName" resultType="String">
 		select i.mi_memname
-		from groups as g join memberinfo as i join composed as c
+		from `groups` as g join memberinfo as i join composed as c
 		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
 		where g.groupno = #{groupno}
 	</select>
@@ -220,21 +220,21 @@
 	<!-- 그룹장아이디 -->
 	<select id="selectGroupMasterId" resultType="String">
 		select i.mi_memid
-		from groups as g join memberinfo as i join composed as c
+		from `groups` as g join memberinfo as i join composed as c
 		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
 		where g.groupno = #{groupno}
 	</select>
 	
 	<!-- 그룹명 -->
 	<select id="selectGroupName" resultType="String">
-		select groupname from groups
+		select groupname from `groups`
 		where groupno = #{groupno}
 	</select>
 	
 	<!--그룹원 모두  -->
 	<select id="selectGroupMemberName" resultType="G_Mi_C_Dto">
 		select g.groupname, i.mi_memname, i.mi_memid, i.mi_assemblename
-		from groups as g join memberinfo as i join composed as c
+		from `groups` as g join memberinfo as i join composed as c
 		on g.groupno = c.groupno and c.memberno = i.mi_memberno
 		where g.groupno = #{groupno}
 	</select>
@@ -316,11 +316,11 @@
 	<select id="myGroupBoard" resultType="G_M_F_Dto">
 	select  g.groupname, m.mi_memname, m.mi_memid, gb.memberno, gb.boardnotice, gb.boarddate, gb.boardcontents, gb.boardlike, gb.boardhate, gb.requestboolean, f.filename, r.responseid, r.reqstatus, gb.groupno, gb.bno
 	from groupboard as gb
-	join groups as g
+	join `groups` as g
 	on gb.groupno = g.groupno
 	left join memberinfo as m
 	on gb.memberno = m.mi_memberno
-	left join file as f
+	left join `file` as f
 	on f.bno = gb.bno
 	left join requestboard as r
 	on r.bno = gb.bno
@@ -336,7 +336,7 @@
       b.bno, b.groupno, g.groupname, b.boardnotice,
       b.boarddate, b.boardcontents, b.boardlike, b.boardhate,
       b.requestboolean, f.filename, r.reqstatus
-      from memberinfo as m, groups g, groupboard as b
+      from memberinfo as m, `groups` g, groupboard as b
       left outer join file f
       on f.bno = b.bno
       left outer join requestboard r
@@ -391,7 +391,7 @@
 	<!-- 내가 받은 요청 리스트 (내 이름, 내 아이디로 요청이들어온것) -->
    <select id="myReq" parameterType="String" resultType="MRG_Dto">
 	select m.mi_memname, m.mi_memid, g.groupname, gb.bno, gb.boarddate, gb.boardcontents, gb.requestboolean, gb.filestatus, r.reqstatus, r.responseid, f.filename
-	from groups as g 
+	from `groups` as g 
 	left join groupboard as gb 
 	on g.groupno = gb.groupno
 	left join requestboard as r
@@ -408,7 +408,7 @@
    <!-- 내가 받은 요청 리스트의 요청상황 -->
    <select id="myReqStatus" parameterType="String" resultType="MRG_Dto">
 	select m.mi_memname, m.mi_memid, g.groupname, gb.bno, gb.boarddate, gb.boardcontents, gb.requestboolean, gb.filestatus, r.reqstatus, r.responseid, f.filename
-	from groups as g 
+	from `groups` as g 
 	left join groupboard as gb 
 	on g.groupno = gb.groupno
 	left join requestboard as r
@@ -553,7 +553,7 @@
 	<select id="selectBookmark" resultType="G_M_F_Dto">
 	select distinct gb.memberno, g.groupname, m.mi_memname, m.mi_memid, gb.boardnotice, gb.boarddate, gb.boardcontents, gb.boardlike, gb.boardhate, gb.requestboolean, f.filename, r.responseid, r.reqstatus, gb.groupno, gb.bno
 	from groupboard as gb
-	join groups as g
+	join `groups` as g
 	on gb.groupno = g.groupno
 	left join memberinfo as m
 	on gb.memberno = m.mi_memberno

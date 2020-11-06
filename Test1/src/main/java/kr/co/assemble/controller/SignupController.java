@@ -142,11 +142,11 @@ public class SignupController {
 		session.setAttribute("authCode", authCode);
 		session.setAttribute("ran", ran);
 		
-		String sendEmail = "tlsgks8668@gmail.com";
+		String sendEmail = "yssy3135@gmail.com";
 		String receiveEmail = mi_mememail;
 		String title = "Assemble 인증 코드입니다.";
 		String contents = "<h1>안녕하세요! Assemble입니다.</h1>\r\n" + 
-				"	<h3>인증코드를 확인하시려면 <a href=\"http://13.209.244.152:8080/signupemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<h3>인증코드를 확인하시려면 <a href=\"http://localhost:8090/signupemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
 				"	<hr />\r\n" + 
 				"	<div class=\"form-group\">\r\n" + 
 				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 

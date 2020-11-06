@@ -11,7 +11,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -27,8 +30,8 @@ import kr.co.assemble.dto.EmailDTO;
 @Service
 public class SendMailImple implements SendMail {
 	
-//	@Autowired
-//	JavaMailSender mailSender;
+	@Autowired
+	JavaMailSender mailSender;
 	
 //	@Value("${aws.ses.port")
 	String smptport = "-";
@@ -73,37 +76,37 @@ public class SendMailImple implements SendMail {
 //		msghelper.setSubject(emaildto.getTitle());		// 제목
 //		msghelper.setText(emaildto.getContents(), true);		// 내용
 		
-        Transport transport = session.getTransport();
-		
-        transport.connect(seshost, Access_Key, Secret_Key);	
-        transport.sendMessage(msg, msg.getAllRecipients());
-
-        transport.close();
-		
-		
-//		System.out.println(mailSender);
-//		System.out.println("mimeMessge 전");
-//		MimeMessage message = mailSender.createMimeMessage();
-//		System.out.println(message);
-//		System.out.println("mimeMessage 후");
+//        Transport transport = session.getTransport();
 //		
-//		try {
-//			
-//			MimeMessageHelper msghelper = new MimeMessageHelper(message, true, "UTF-8");
-//			// MimeMessageHelper에 set하기 위함
-//			msghelper.setFrom(emaildto.getSendemail());		// 보내는 사람 이메일
-//			msghelper.setTo(emaildto.getReceiveemail());		// 받는 사람 이메일
-//			msghelper.setSubject(emaildto.getTitle());		// 제목
-//			msghelper.setText(emaildto.getContents(), true);		// 내용
-//			
-//			mailSender.send(message);
-//			
-////			return true;
-//			
-//		} catch (MessagingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+//        transport.connect(seshost, Access_Key, Secret_Key);	
+//        transport.sendMessage(msg, msg.getAllRecipients());
+//
+//        transport.close();
+		
+		
+		System.out.println(mailSender);
+		System.out.println("mimeMessge 전");
+		MimeMessage message = mailSender.createMimeMessage();
+		System.out.println(message);
+		System.out.println("mimeMessage 후");
+		
+		try {
+			
+			MimeMessageHelper msghelper = new MimeMessageHelper(message, true, "UTF-8");
+			// MimeMessageHelper에 set하기 위함
+			msghelper.setFrom(emaildto.getSendemail());		// 보내는 사람 이메일
+			msghelper.setTo(emaildto.getReceiveemail());		// 받는 사람 이메일
+			msghelper.setSubject(emaildto.getTitle());		// 제목
+			msghelper.setText(emaildto.getContents(), true);		// 내용
+			
+			mailSender.send(message);
+			
+//			return true;
+			
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

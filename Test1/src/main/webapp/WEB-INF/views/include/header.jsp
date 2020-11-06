@@ -26,7 +26,8 @@
     <!-- Custom styles for this template -->
     <link href="/resources/assets/css/style.css" rel="stylesheet">
     <link href="/resources/assets/css/style-responsive.css" rel="stylesheet">
-    
+    <link href="/resources/assets/css/chat_css.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
@@ -51,6 +52,20 @@ $(document).ready(function() {
 	    
 	    
 	 });
+	
+	$(".sub-menu").click(function(){
+		
+		if(this.childNodes[5].style.display == "none" ){
+			
+			this.childNodes[5].style.display = "block"
+		}else{
+			this.childNodes[5].style.display = "none" ;
+		}
+		
+
+		
+	});
+	
 	
 });
 
@@ -135,7 +150,7 @@ $(document).ready(function() {
 					
 					<c:forEach var="c" items="${categoryList}">
 						<li class="sub-menu">
-						<a href="javascript:;"> 
+						
 						<span class="groups__folding-icon">
                            <i class="ico ico-arrow_b" aria-hidden="true">
                               <svg width="10px" height="5px" viewBox="0 0 8 5" version="1.1">
@@ -146,8 +161,6 @@ $(document).ready(function() {
                            </i>
                         </span> 
 							<span class="category">${c.categoryname }</span> 
-						
-						</a>
 
 							<ul class="sub">
 							
@@ -185,8 +198,7 @@ $(document).ready(function() {
 <script src="/resources/assets/js/jquery.js"></script>
 <script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
 <script src="/resources/assets/js/bootstrap.min.js"></script>
-<script class="include" type="text/javascript"
-	src="/resources/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+
 <script src="/resources/assets/js/jquery.scrollTo.min.js"></script>
 
 <!--     common script for all pages -->

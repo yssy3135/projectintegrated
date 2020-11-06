@@ -15,25 +15,25 @@
 		//set default options 
 		var defaults = {
 			classParent	 : 'dcjq-parent',
-			classActive	 : 'active',
+			classActive	 : 'visited',
 			classArrow	 : 'dcjq-icon',
 			classCount	 : 'dcjq-count',
 			classExpand	 : 'dcjq-current-parent',
 			eventType	 : 'click',
 			hoverDelay	 : 300,
-			menuClose     : true,
-			autoClose    : true,
+			menuClose     : false,
+			autoClose    : false,
 			autoExpand	 : false,
 			speed        : 'slow',
-			saveState	 : true,
-			disableLink	 : true,
+			saveState	 : false,
+			disableLink	 : false,
 			showCount : false,
 //			cookie	: 'dcjq-accordion'
 		};
 
 		//call in the default otions
 		var options = $.extend(defaults, options);
-
+		
 		this.each(function(options){
 
 			var obj = this;
@@ -46,39 +46,7 @@
 			}
 			resetAccordion();
 
-			if(defaults.eventType == 'hover'){
-
-				var config = {
-					sensitivity: 2, // number = sensitivity threshold (must be 1 or higher)
-					interval: defaults.hoverDelay, // number = milliseconds for onMouseOver polling interval
-					over: linkOver, // function = onMouseOver callback (REQUIRED)
-					timeout: defaults.hoverDelay, // number = milliseconds delay before onMouseOut
-					out: linkOut // function = onMouseOut callback (REQUIRED)
-				};
-
-				$('li a',obj).hoverIntent(config);
-				var configMenu = {
-					sensitivity: 2, // number = sensitivity threshold (must be 1 or higher)
-					interval: 1000, // number = milliseconds for onMouseOver polling interval
-					over: menuOver, // function = onMouseOver callback (REQUIRED)
-					timeout: 1000, // number = milliseconds delay before onMouseOut
-					out: menuOut // function = onMouseOut callback (REQUIRED)
-				};
-
-				$(obj).hoverIntent(configMenu);
-
-				// Disable parent links
-				if(defaults.disableLink == true){
-
-					$('li a',obj).click(function(e){
-						if($(this).siblings('ul').length >0){
-							e.preventDefault();
-						}
-					});
-				}
-
-			} else {
-			
+				
 				$('li a',obj).click(function(e){
 
 					$activeLi = $(this).parent('li');
@@ -86,23 +54,21 @@
 					$parentsUl = $activeLi.parents('ul');
 
 					// Prevent browsing to link if has child links
-					if(defaults.disableLink == true){
-						if($(this).siblings('ul').length >0){
-							e.preventDefault();
-						}
-					}
-
-					// Auto close sibling menus
-					if(defaults.autoClose == true){
-						autoCloseAccordion($parentsLi, $parentsUl);
-					}
-
+					
+					
+					
 					if ($('> ul',$activeLi).is(':visible')){
 						$('ul',$activeLi).slideUp(defaults.speed);
 						$('a',$activeLi).removeClass(defaults.classActive);
+						console.log(1);
+						
+					
+					
 					} else {
 						$(this).siblings('ul').slideToggle(defaults.speed);
-						$('> a',$activeLi).addClass(defaults.classActive);
+					
+						console.log(2);
+						
 					}
 					
 //					// Write cookie if save state is on
@@ -110,7 +76,10 @@
 //						createCookie(defaults.cookie, obj);
 //					}
 				});
-			}
+				
+				
+
+			
 
 			// Set up accordion
 			function setUpAccordion(){
@@ -208,8 +177,8 @@
 //				});
 //			}
 //		}
-
-		// Write cookie
+//
+//		// Write cookie
 //		function createCookie(cookieId, obj){
 //			var activeIndex = [];
 //			// Create array of active items index value
